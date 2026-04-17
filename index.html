@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Mantto Lite" />
+  <meta name="description" content="App simple de mantenciones para iPhone y Android" />
+  <title>Mantto Lite</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png" />
+  <link rel="icon" type="image/png" href="assets/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="mobile-shell">
+    <header class="app-header">
+      <div>
+        <div class="brand-row">
+          <div class="brand-icon">M</div>
+          <div>
+            <h1>Mantto Lite</h1>
+            <p>Solicitudes y seguimiento</p>
+          </div>
+        </div>
+      </div>
+      <button id="installBtn" class="secondary small" hidden>Instalar</button>
+    </header>
+
+    <main class="page-content">
+      <section id="dashboardView" class="view active">
+        <div class="hero card">
+          <div>
+            <h2>Panel general</h2>
+            <p>Control simple para locales, equipos y técnicos externos.</p>
+          </div>
+          <button id="quickNewBtn">+ Nueva orden</button>
+        </div>
+
+        <div class="stats-grid" id="statsGrid"></div>
+
+        <section class="card stack-gap">
+          <div class="section-head">
+            <h3>Solicitudes recientes</h3>
+            <button class="ghost linkish" data-go-view="requests">Ver todas</button>
+          </div>
+          <div id="recentRequests" class="list"></div>
+        </section>
+
+        <section class="card stack-gap">
+          <div class="section-head">
+            <h3>Resumen por prioridad</h3>
+          </div>
+          <div id="prioritySummary" class="summary-stack"></div>
+        </section>
+      </section>
+
+      <section id="requestsView" class="view">
+        <section class="card stack-gap">
+          <div class="section-head">
+            <h3>Órdenes de trabajo</h3>
+            <button id="newRequestBtn">+ Crear</button>
+          </div>
+
+          <div class="filters-grid">
+            <div>
+              <label>Buscar</label>
+              <input id="searchInput" type="text" placeholder="Local, equipo o detalle" />
+            </div>
+            <div>
+              <label>Estado</label>
+              <select id="statusFilter">
+                <option value="all">Todos</option>
+                <option value="Abierta">Abierta</option>
+                <option value="En progreso">En progreso</option>
+                <option value="Pendiente repuesto">Pendiente repuesto</option>
+                <option value="Cerrada">Cerrada</option>
+              </select>
+            </div>
+            <div>
+              <label>Prioridad</label>
+              <select id="priorityFilter">
+                <option value="all">Todas</option>
+                <option value="Alta">Alta</option>
+                <option value="Media">Media</option>
+                <option value="Baja">Baja</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="requestsCards" class="list"></div>
+        </section>
+      </section>
+
+      <section id="scheduleView" class="view">
+        <section class="card stack-gap">
+          <div class="section-head">
+            <h3>Preventivos programados</h3>
+          </div>
+          <div id="scheduledList" class="list"></div>
+        </section>
+
+        <section class="card stack-gap">
+          <div class="section-head">
+            <h3>Checklists frecuentes</h3>
+          </div>
+          <div id="checklistTemplates" class="list"></div>
+        </section>
+      </section>
+
+      <section id="settingsView" class="view">
+        <section class="card stack-gap">
+          <div class="section-head">
+            <h3>Locales</h3>
+          </div>
+          <div class="inline-form">
+            <input id="siteInput" type="text" placeholder="Ej: Juan Maestro Zona Franca" />
+            <button id="addSiteBtn">Agregar</button>
+          </div>
+          <div id="sitesList" class="tag-list"></div>
+        </section>
+
+        <section class="card stack-gap">
+          <div class="section-head">
+            <h3>Técnicos / responsables</h3>
+          </div>
+          <div class="inline-form">
+            <input id="techInput" type="text" placeholder="Ej: Carlos Soto" />
+            <button id="addTechBtn">Agregar</button>
+          </div>
+          <div id="techsList" class="tag-list"></div>
+        </section>
+
+        <section class="card stack-gap">
+          <div class="section-head">
+            <h3>Respaldo</h3>
+          </div>
+          <div class="button-row">
+            <button id="exportBtn" class="secondary">Exportar JSON</button>
+            <label class="secondary file-label">
+              Importar JSON
+              <input id="importInput" type="file" accept="application/json" hidden />
+            </label>
+            <button id="resetBtn" class="danger">Reiniciar demo</button>
+          </div>
+          <p class="muted">Los datos quedan guardados en el navegador del equipo.</p>
+        </section>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-view="dashboardView">
+        <span>🏠</span><small>Inicio</small>
+      </button>
+      <button class="nav-btn" data-view="requestsView">
+        <span>🛠️</span><small>Órdenes</small>
+      </button>
+      <button class="nav-btn primary-fab" id="fabBtn">
+        <span>＋</span><small>Nueva</small>
+      </button>
+      <button class="nav-btn" data-view="scheduleView">
+        <span>📅</span><small>Agenda</small>
+      </button>
+      <button class="nav-btn" data-view="settingsView">
+        <span>⚙️</span><small>Ajustes</small>
+      </button>
+    </nav>
+  </div>
+
+  <dialog id="requestModal">
+    <form method="dialog" id="requestForm">
+      <div class="modal-header">
+        <h3 id="modalTitle">Nueva orden</h3>
+        <button class="ghost" type="button" id="closeModalBtn">✕</button>
+      </div>
+
+      <div class="form-grid">
+        <div>
+          <label>Local</label>
+          <select id="siteField" required></select>
+        </div>
+        <div>
+          <label>Equipo / activo</label>
+          <input id="assetField" type="text" required placeholder="Freidora, campana, POS..." />
+        </div>
+        <div>
+          <label>Tipo</label>
+          <select id="typeField" required>
+            <option>Correctiva</option>
+            <option>Preventiva</option>
+            <option>Inspección</option>
+          </select>
+        </div>
+        <div>
+          <label>Prioridad</label>
+          <select id="priorityField" required>
+            <option>Alta</option>
+            <option selected>Media</option>
+            <option>Baja</option>
+          </select>
+        </div>
+        <div>
+          <label>Estado</label>
+          <select id="statusField" required>
+            <option>Abierta</option>
+            <option>En progreso</option>
+            <option>Pendiente repuesto</option>
+            <option>Cerrada</option>
+          </select>
+        </div>
+        <div>
+          <label>Responsable</label>
+          <select id="assignedField"></select>
+        </div>
+        <div>
+          <label>Fecha programada</label>
+          <input id="scheduledField" type="date" />
+        </div>
+        <div>
+          <label>Costo estimado</label>
+          <input id="costField" type="number" min="0" step="1000" placeholder="0" />
+        </div>
+      </div>
+
+      <div class="stack-gap">
+        <div>
+          <label>Descripción</label>
+          <textarea id="descriptionField" rows="3" placeholder="Detalle del problema o trabajo a realizar"></textarea>
+        </div>
+
+        <div>
+          <label>Checklist</label>
+          <div class="checklist-input-row">
+            <input id="checklistInput" type="text" placeholder="Ej: revisar cableado" />
+            <button type="button" id="addChecklistItemBtn">Agregar</button>
+          </div>
+          <div id="checklistBuilder" class="checklist-builder"></div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary" id="cancelModalBtn">Cancelar</button>
+        <button type="submit">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
